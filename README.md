@@ -2,18 +2,23 @@
 - The automation to have fun around niconico-douga
 
 # Todo
-- [ ] lay foundation for audio scraper
+- [x] lay foundation for audio scraper
   - [x] fill out specification
   - [x] fill out requirements
   - [x] fill out draft implementation
-  - [ ] create draft schedule
+  - [x] create draft schedule
 - [ ] create visual diagram to describe program architecture
-- [ ] create visual diagram to describe detailed architecture of program
+- [ ] consider architecture of program and create visual diagram
 
 # Features
 ## Audio scraper
 ### [Draft] Schedule
-- 
+- Lay foundation for this project
+- Create supplemental visual diagrams
+- Break down implementation and append them to schedule
+- Prepare development environment
+  - docker, golang
+- [TBD] implementation
 
 ### Specification
 - general
