@@ -1,5 +1,5 @@
-# niconico-scraper
-- The automation to have fun around niconico-douga
+# scraper
+- The automation to have fun around web and learn golang
 
 # Todo
 - [x] lay foundation for audio scraper
@@ -7,8 +7,11 @@
   - [x] fill out requirements
   - [x] fill out draft implementation
   - [x] create draft schedule
-- [ ] create visual diagram to describe program architecture
-- [ ] consider architecture of program and create visual diagram
+- [x] create visual diagram to describe program architecture
+  - overview of program, relationships among them
+- [ ] consider architecture of implementation and create visual diagram
+  - sequence diagram
+  - er diagram
 
 # Features
 ## Audio scraper
@@ -19,6 +22,9 @@
 - Prepare development environment
   - docker, golang
 - [TBD] implementation
+
+### Application overview
+![application overview image](docs/img/audio-scraper-application-overview.png)
 
 ### Specification
 - general
@@ -34,7 +40,7 @@
     - urls to the videos that you want to extract audio
 - output
   - audio files of the videos given as urls
-    - in mp3 file
+    - in mp3 format
     - file name to be title of video
     - save them to designated location
 - misc
