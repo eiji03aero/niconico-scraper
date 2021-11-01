@@ -1,20 +1,12 @@
 # scraper
 - The automation to have fun around web and learn golang
 
-# Todo
-- [x] lay foundation for audio scraper
-  - [x] fill out specification
-  - [x] fill out requirements
-  - [x] fill out draft implementation
-  - [x] create draft schedule
-- [x] create visual diagram to describe program architecture
-  - overview of program, relationships among them
-- [ ] consider architecture of implementation and create visual diagram
-  - sequence diagram
-  - er diagram
+---
 
 # Features
+
 ## Audio scraper
+
 ### [Draft] Schedule
 - Lay foundation for this project
 - Create supplemental visual diagrams
@@ -23,8 +15,50 @@
   - docker, golang
 - [TBD] implementation
 
-### Application overview
+### Overview
+#### Application
 ![application overview image](docs/img/audio-scraper-application-overview.png)
+
+#### Program components
+![program overview image](docs/img/audio-scraper-program-overview.png)
+
+- Application
+  - the application service, encapsulates application logic underneath
+  - orchestrates components
+  - provides interface so that binding can utilize it
+- Configuration
+  - new with config file path
+  - getters for the config values
+- NicoNicoDougaService
+  - handles login operation
+  - handles video page
+    - arguments:
+      - video page url
+    - scrape video title
+    - scrape video url
+- AudioExtractor
+  - extracts audio from video file
+    - arguments:
+      - path to video file
+      - path to mp3 file to save to
+- Worker
+  - handles executing work
+  - notifies when work is done
+- WorkerPool
+  - stores Workers
+  - provides Workers when requested
+  - re-stores Workers when given back
+- WorkerManager
+  - configures
+    - quantity of workers to pool
+    - quantity of workers to run at a moment
+  - start execution of workers
+  - notify when work is done
+  - should be able to handle errors within Worker
+  - should be able to report result
+    - how many completed without error
+    - how many encountered error
+
 
 ### Specification
 - general
@@ -54,6 +88,7 @@
     - accountEmail: string ... account email
     - password: string ... password
     - mediaUrls: []string ... urls to extract audios
+    - outputPath: string ... path to directory under which audio files will be saved
 - for url of urls: (ideally work here should be done concurrently)
   - open niconico login page
   - input account email and password, and proceed with login
@@ -93,3 +128,20 @@
 - docker
   - gives portable execution environment for program
 
+---
+
+# Todo
+## Backlog
+- [x] create visual diagram to describe program architecture
+  - overview of program, relationships among them
+- [ ] consider architecture of implementation and create visual diagram
+  - [ ] sequence diagram
+  - [x] components diagram
+- [ ] research if extracting audio for personal use conflict with dwango's terms of use
+
+### Done
+- [x] lay foundation for audio scraper
+  - [x] fill out specification
+  - [x] fill out requirements
+  - [x] fill out draft implementation
+  - [x] create draft schedule
