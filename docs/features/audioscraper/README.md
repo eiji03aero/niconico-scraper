@@ -65,13 +65,13 @@
 - [TBD] implementation
 
 # Overview
-- [Audio scraper diagrams](diagrams/audio-scraper-design.drawio)
+- [Audio scraper diagrams](audio-scraper-design.drawio)
 
 ## Application
-![Application overview image](images/audio-scraper-application-overview.png)
+![Application overview image](images/application-overview.png)
 
 ## Program components
-![Program overview image](images/audio-scraper-program-overview.png)
+![Program overview image](images/program-overview.png)
 
 ### Application models
 - Application
