@@ -73,6 +73,13 @@
 ## Program components
 ![Program overview image](images/program-overview.png)
 
+### CLI binding
+- just provide function
+- parse the argument
+- configure and run application
+- writes to the standard output when thing done
+- writes to the standard error when things gone bad
+
 ### Application models
 - Application
   - the application service, encapsulates application logic underneath
@@ -83,10 +90,10 @@
   - properties:
     - none
   - methods:
-    - none
+    - Run(config Configuration) (error)
 - Configuration
   - retrieve and manage configuration
-    - provide configuration values as required
+  - provide configuration values as required
   - new arguments:
     - none
   - properties:
@@ -95,13 +102,14 @@
     - resources []MediaResource
       - slices of resources to download and convert to store on disk.
   - methods:
-    - LoadByConfigPath(path string) (err)
+    - LoadByFile(path string) (err)
       - Loads configuration by reading config file specified by the path given
-    - AppendResources(resources []MediaResource)
-      - appends resources data to internal resources property.
     - GetResources() []MediaResource
       - returns the resources
-    - GetNicoNicoDougaCredentials(resource MediaResource) (email string, password string)
+    - GetCredentials[T]() (T, error)
+      - can golang do type assertion with type argument?
+      - if so, asserts the type to return corresponding credentials
+        - if not credential not found, return error
 
 ## Application agnostic models
 - Worker[Input, Result = any]
@@ -109,9 +117,9 @@
   - receives work (input) via channel given
   - notifies when work is done
   - new arguments:
-    - jobCh chan Input
-    - errCh chan error
-    - cancelCh chan error
+    - jobCh chan<- Input
+    - errCh chan<- error
+    - cancelCh chan<- error
   - properties:
     - jobCh chan Input
     - errCh chan error
@@ -129,41 +137,44 @@
     - how many completed without error
     - how many encountered error
   - new arguments:
-    - workerQty int
-    - results 
-    - errors []errors
+    - none
   - properties:
     - workersQty int
+    - results []Result
+    - errors []error
   - methods:
-    - TBD no idea
+    - SetWorkerQty(qty int)
+    - RegisterWork(func (input Input) (Result, error))
+    - Run()
+    - Done() (chan<- error)
+      - returns channel which emits when work is done
+    - Terminate() (error)
+      - terminates underlying works
 - AudioExtractor
   - extract audio file from some kind of media
+  - new arguments:
+    - outputPath string
   - properties:
-    - defaultOutputPath
+    - outputPath string
   - methods:
-    - SetDefaultOutputPath(path string)
-      - sets default output path
-    - Extract(filePath string, name string, ext string) (path string, err error)
+    - Execute(filePath string, name string, ext string) (path string, err error)
 - MediaDownloader
   - handles downloading media files to specified location
   - new arguments:
-    - none?
+    - outputPath string
   - properties:
-    - defaultOutputPath string
+    - outputPath string
   - methods:
-    - SetDefaultOutputPath string
-      - sets default output path to the location where this model downloads file to
-    - Download(url string) (location string, err error)
+    - Execute(url string) (locationPath string, err error)
       - downloads media file, and returns the file location path and error if any
 - NicoNicoDougaService
   - provides niconico douga specific operations
   - concern:
     - probably the browser automation tool should be injected
   - new arguments:
-    - email string
-    - password string
+    - credential NicoNicoDougaCredential
   - properties:
-    - none?
+    - credential NicoNicoDougaCredential
   - methods:
     - ScrapeVideoData(url string) (NicoNicoDougaVideoData, error)
       - handles login operation
@@ -176,12 +187,37 @@
     - provider "niconico"
     - url string
   - properties:
-    - Provider "niconico"
+    - provider "niconico"
+  - methods:
+    - GetProvider() (string)
+    - GetUrl() (string)
 - NicoNicoDougaVideoData
   - holds aggregated video data
   - properties:
     - mediaUrl string
     - title string
+  - methods:
+    - GetMediaUrl() (string)
+    - GetTitle() (string)
+- NicoNicoDougaCredential
+  - new arguments:
+    - email string
+    - password string
+  - properties
+    - email string
+    - password string
+  - methods:
+    - GetEmail() (string)
+    - GetPassword() (string)
+
+## Errors
+- ConfigurationFileNotFound
+  - when Configuration failed to find a config file specified with path
+- ConfigurationFileInvalid
+  - when config file format is invalid
+- InvalidCredentialRequest
+  - when Configuration failed to get credential for the type argument given
+
 
 ## Others
 - Config yaml file
