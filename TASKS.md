@@ -1,15 +1,12 @@
 # Tasks
 
 ## Backlog
-- [ ] consider architecture of implementation and create visual diagram
-  - [x] er diagram
-    - description, interface, member fields
-    - draft with text is done, just proceed with creating diagram
-  - [ ] sequence diagram
-    - flow of executing audio scraper
-    - try mermaid
-      - https://mermaid-js.github.io/mermaid/#/
 - [ ] research if extracting audio for personal use conflicts with dwango's terms of use
+
+- [ ] Create development plan
+  - thing of folder architecture
+  - start small, try to logically group works together
+  - write test
 
 - [ ] Add initialization script and gitignore
   - should create config file for audioscraper
@@ -23,6 +20,14 @@
   - So experiment with dummy data instead
 
 ## Done
+- [x] consider architecture of implementation and create visual diagram
+  - [x] er diagram
+    - description, interface, member fields
+    - draft with text is done, just proceed with creating diagram
+  - [x] sequence diagram
+    - flow of executing audio scraper
+    - try mermaid
+      - https://mermaid-js.github.io/mermaid/#/
 - [x] create visual diagram to describe program architecture
   - overview of program, relationships among them
 - [x] lay foundation for audio scraper

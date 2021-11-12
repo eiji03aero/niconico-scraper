@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant CLI
+    participant App as Application
+    participant Config as Configuration
+    participant WS as WorkStation
+    participant Wr as Worker
+    participant w as work
+    participant ncncsvc as NicoNicoDougaService
+    participant MD as MediaDownloader
+    participant AE as AudioExtractor
+    %% external
+    participant D as Disk
+    participant ncnc as NicoNicoDouga
+
+    %% Initialization by adapter
+    CLI->>Config: Call LoadByFile
+    CLI->>App: Call Run
+
+    %% Application flow
+    App->>WS: Call Run
+    WS->>Wr: Call Run in parallel
+    Wr->>w: Call
+    w->>Config: Call GetCredentials
+    w->>ncncsvc: Call ScrapeVideoData
+    ncncsvc->>ncnc: Scrapes
+    w->>MD: Call Execute
+    w->>AE: Call Execute
+    w->>D: Saves audio file

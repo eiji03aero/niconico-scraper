@@ -1,6 +1,14 @@
 # audioscraper
 - An automation to aggregate audio files from various sources.
 
+# Schedule
+- Lay foundation for this project
+- Create supplemental visual diagrams
+- Break down implementation and append them to schedule
+- Prepare development environment
+  - docker, golang
+- [TBD] implementation
+
 # Specification
 - general
   - use golang to program
@@ -56,13 +64,34 @@
   - or not really?
     - just put everything in one module?
 
-# Schedule
-- Lay foundation for this project
-- Create supplemental visual diagrams
-- Break down implementation and append them to schedule
-- Prepare development environment
-  - docker, golang
-- [TBD] implementation
+# Draft implementation
+- execute program with configuration file
+- read configuration file to:
+  - store:
+    - accountEmail: string ... account email
+    - password: string ... password
+    - mediaUrls: []string ... urls to extract audios
+    - outputPath: string ... path to directory under which audio files will be saved
+- for url of urls: (ideally work here should be done concurrently)
+  - open niconico login page
+  - input account email and password, and proceed with login
+  - confirm login succeeded
+  - open the url
+  - (probably) deal with advertisement
+  - traverse page to:
+    - store:
+      - video title (should be in original title, not in wrongly wron translation. what is wrong with those machine translations?)
+      - video source url
+  - download video from the video source url
+    - probably should write it to disk to optimize memory usage?
+    - store:
+      - video media file
+  - extract audio file from video media file
+    - probably should write it to disk?
+    - store:
+      - audio media file
+  - set video title to audio media file's name
+  - move audio media file to designated location
 
 # Overview
 - [Audio scraper diagrams](audio-scraper-design.drawio)
@@ -111,7 +140,7 @@
       - if so, asserts the type to return corresponding credentials
         - if not credential not found, return error
 
-## Application agnostic models
+### Application agnostic models
 - Worker[Input, Result = any]
   - handles executing work
   - receives work (input) via channel given
@@ -180,7 +209,7 @@
       - handles login operation
       - handles scraping video page
 
-## Application agnostic data structures
+### Application agnostic data structures
 - MediaResource
   - holds data to describe media resource from various video services
   - new arguments:
@@ -210,7 +239,7 @@
     - GetEmail() (string)
     - GetPassword() (string)
 
-## Errors
+### Errors
 - ConfigurationFileNotFound
   - when Configuration failed to find a config file specified with path
 - ConfigurationFileInvalid
@@ -218,8 +247,7 @@
 - InvalidCredentialRequest
   - when Configuration failed to get credential for the type argument given
 
-
-## Others
+### Others
 - Config yaml file
   - settings:
     - outputPath string
@@ -230,31 +258,8 @@
   - resources:
     - []MediaResource
 
-# Draft implementation
-- execute program with configuration file
-- read configuration file to:
-  - store:
-    - accountEmail: string ... account email
-    - password: string ... password
-    - mediaUrls: []string ... urls to extract audios
-    - outputPath: string ... path to directory under which audio files will be saved
-- for url of urls: (ideally work here should be done concurrently)
-  - open niconico login page
-  - input account email and password, and proceed with login
-  - confirm login succeeded
-  - open the url
-  - (probably) deal with advertisement
-  - traverse page to:
-    - store:
-      - video title (should be in original title, not in wrongly wron translation. what is wrong with those machine translations?)
-      - video source url
-  - download video from the video source url
-    - probably should write it to disk to optimize memory usage?
-    - store:
-      - video media file
-  - extract audio file from video media file
-    - probably should write it to disk?
-    - store:
-      - audio media file
-  - set video title to audio media file's name
-  - move audio media file to designated location
+## Program execution flow
+- [Audio scraper sequence diagram](audio-scraper-execution-flow.mmd)
+- [Mermaid](https://mermaid.live/edit/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgQ0xJXG4gICAgcGFydGljaXBhbnQgQXBwIGFzIEFwcGxpY2F0aW9uXG4gICAgcGFydGljaXBhbnQgQ29uZmlnIGFzIENvbmZpZ3VyYXRpb25cbiAgICBwYXJ0aWNpcGFudCBXUyBhcyBXb3JrU3RhdGlvblxuICAgIHBhcnRpY2lwYW50IFdyIGFzIFdvcmtlclxuICAgIHBhcnRpY2lwYW50IHcgYXMgd29ya1xuICAgIHBhcnRpY2lwYW50IG5jbmNzdmMgYXMgTmljb05pY29Eb3VnYVNlcnZpY2VcbiAgICBwYXJ0aWNpcGFudCBNRCBhcyBNZWRpYURvd25sb2FkZXJcbiAgICBwYXJ0aWNpcGFudCBBRSBhcyBBdWRpb0V4dHJhY3RvclxuICAgICUlIGV4dGVybmFsXG4gICAgcGFydGljaXBhbnQgRCBhcyBEaXNrXG4gICAgcGFydGljaXBhbnQgbmNuYyBhcyBOaWNvTmljb0RvdWdhXG5cbiAgICAlJSBJbml0aWFsaXphdGlvbiBieSBhZGFwdGVyXG4gICAgQ0xJLT4-Q29uZmlnOiBDYWxsIExvYWRCeUZpbGVcbiAgICBDTEktPj5BcHA6IENhbGwgUnVuXG5cbiAgICAlJSBBcHBsaWNhdGlvbiBmbG93XG4gICAgQXBwLT4-V1M6IENhbGwgUnVuXG4gICAgV1MtPj5XcjogQ2FsbCBSdW4gaW4gcGFyYWxsZWxcbiAgICBXci0-Pnc6IENhbGxcbiAgICB3LT4-Q29uZmlnOiBDYWxsIEdldENyZWRlbnRpYWxzXG4gICAgdy0-Pm5jbmNzdmM6IENhbGwgU2NyYXBlVmlkZW9EYXRhXG4gICAgbmNuY3N2Yy0-Pm5jbmM6IFNjcmFwZXNcbiAgICB3LT4-TUQ6IENhbGwgRXhlY3V0ZVxuICAgIHctPj5BRTogQ2FsbCBFeGVjdXRlXG4gICAgdy0-PkQ6IFNhdmVzIGF1ZGlvIGZpbGUiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGFya1wiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
+
+![Sequence diagram](images/program-execution-flow.png)
