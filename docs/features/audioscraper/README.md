@@ -196,16 +196,16 @@
   - methods:
     - Execute(url string) (locationPath string, err error)
       - downloads media file, and returns the file location path and error if any
-- NicoNicoDougaService
+- NicoVideoService
   - provides niconico douga specific operations
   - concern:
     - probably the browser automation tool should be injected
   - new arguments:
-    - credential NicoNicoDougaCredential
+    - credential NicoVideoCredential
   - properties:
-    - credential NicoNicoDougaCredential
+    - credential NicoVideoCredential
   - methods:
-    - ScrapeVideoData(url string) (NicoNicoDougaVideoData, error)
+    - ScrapeVideoData(url string) (NicoVideoVideoData, error)
       - handles login operation
       - handles scraping video page
 
@@ -220,7 +220,7 @@
   - methods:
     - GetProvider() (string)
     - GetUrl() (string)
-- NicoNicoDougaVideoData
+- NicoVideoVideoData
   - holds aggregated video data
   - properties:
     - mediaUrl string
@@ -228,7 +228,7 @@
   - methods:
     - GetMediaUrl() (string)
     - GetTitle() (string)
-- NicoNicoDougaCredential
+- NicoVideoCredential
   - new arguments:
     - email string
     - password string
@@ -260,6 +260,6 @@
 
 ## Program execution flow
 - [Audio scraper sequence diagram](audio-scraper-execution-flow.mmd)
-- [Mermaid](https://mermaid.live/edit/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgQ0xJXG4gICAgcGFydGljaXBhbnQgQXBwIGFzIEFwcGxpY2F0aW9uXG4gICAgcGFydGljaXBhbnQgQ29uZmlnIGFzIENvbmZpZ3VyYXRpb25cbiAgICBwYXJ0aWNpcGFudCBXUyBhcyBXb3JrU3RhdGlvblxuICAgIHBhcnRpY2lwYW50IFdyIGFzIFdvcmtlclxuICAgIHBhcnRpY2lwYW50IHcgYXMgd29ya1xuICAgIHBhcnRpY2lwYW50IG5jbmNzdmMgYXMgTmljb05pY29Eb3VnYVNlcnZpY2VcbiAgICBwYXJ0aWNpcGFudCBNRCBhcyBNZWRpYURvd25sb2FkZXJcbiAgICBwYXJ0aWNpcGFudCBBRSBhcyBBdWRpb0V4dHJhY3RvclxuICAgICUlIGV4dGVybmFsXG4gICAgcGFydGljaXBhbnQgRCBhcyBEaXNrXG4gICAgcGFydGljaXBhbnQgbmNuYyBhcyBOaWNvTmljb0RvdWdhXG5cbiAgICAlJSBJbml0aWFsaXphdGlvbiBieSBhZGFwdGVyXG4gICAgQ0xJLT4-Q29uZmlnOiBDYWxsIExvYWRCeUZpbGVcbiAgICBDTEktPj5BcHA6IENhbGwgUnVuXG5cbiAgICAlJSBBcHBsaWNhdGlvbiBmbG93XG4gICAgQXBwLT4-V1M6IENhbGwgUnVuXG4gICAgV1MtPj5XcjogQ2FsbCBSdW4gaW4gcGFyYWxsZWxcbiAgICBXci0-Pnc6IENhbGxcbiAgICB3LT4-Q29uZmlnOiBDYWxsIEdldENyZWRlbnRpYWxzXG4gICAgdy0-Pm5jbmNzdmM6IENhbGwgU2NyYXBlVmlkZW9EYXRhXG4gICAgbmNuY3N2Yy0-Pm5jbmM6IFNjcmFwZXNcbiAgICB3LT4-TUQ6IENhbGwgRXhlY3V0ZVxuICAgIHctPj5BRTogQ2FsbCBFeGVjdXRlXG4gICAgdy0-PkQ6IFNhdmVzIGF1ZGlvIGZpbGUiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGFya1wiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
+- [Mermaid](https://mermaid.live/edit/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgJSUgbW9kZWxzXG4gICAgcGFydGljaXBhbnQgQ0xJXG4gICAgcGFydGljaXBhbnQgQXBwIGFzIEFwcGxpY2F0aW9uXG4gICAgcGFydGljaXBhbnQgQ29uZmlnIGFzIENvbmZpZ3VyYXRpb25cbiAgICBwYXJ0aWNpcGFudCBXUyBhcyBXb3JrU3RhdGlvblxuICAgIHBhcnRpY2lwYW50IFdyIGFzIFdvcmtlclxuICAgIHBhcnRpY2lwYW50IHcgYXMgd29ya1xuICAgIHBhcnRpY2lwYW50IG5jc3ZjIGFzIE5pY29WaWRlb1NlcnZpY2VcbiAgICBwYXJ0aWNpcGFudCBNRCBhcyBNZWRpYURvd25sb2FkZXJcbiAgICBwYXJ0aWNpcGFudCBBRSBhcyBBdWRpb0V4dHJhY3RvclxuICAgICUlIGV4dGVybmFsXG4gICAgcGFydGljaXBhbnQgRCBhcyBEaXNrXG4gICAgcGFydGljaXBhbnQgbmN2ZCBhcyBOaWNvVmlkZW9cblxuICAgICUlIC0tLS0tLS0tLS0gRXhlY3V0aW9uIGZsb3cgLS0tLS0tLS0tLVxuICAgICUlIEluaXRpYWxpemF0aW9uIGJ5IGFkYXB0ZXJcbiAgICBhY3RpdmF0ZSBDTElcbiAgICBDTEktPj5Db25maWc6IENhbGwgTG9hZEJ5RmlsZVxuICAgIENMSS0-PkFwcDogQ2FsbCBSdW5cblxuICAgICUlIEFwcGxpY2F0aW9uIGZsb3dcbiAgICBhY3RpdmF0ZSBBcHBcbiAgICBBcHAtPj5XUzogQ2FsbCBSdW5cbiAgICBhY3RpdmF0ZSBXU1xuICAgIFdTLT4-V3I6IENhbGwgUnVuXG4gICAgcGFyIFdvcmtcbiAgICAgICAgYWN0aXZhdGUgV3JcbiAgICAgICAgV3ItPj53OiBDYWxsXG4gICAgICAgIGFjdGl2YXRlIHdcbiAgICAgICAgdy0-PkNvbmZpZzogQ2FsbCBHZXRDcmVkZW50aWFsc1xuICAgICAgICB3LT4-bmNzdmM6IENhbGwgU2NyYXBlVmlkZW9EYXRhXG4gICAgICAgIG5jc3ZjLT4-bmN2ZDogU2NyYXBlc1xuICAgICAgICBuY3N2Yy0-Pnc6IFJldHVybnMgTmljb1ZpZGVvVmlkZW9EYXRhXG4gICAgICAgIHctPj5NRDogQ2FsbCBFeGVjdXRlXG4gICAgICAgIE1ELT4-dzogUmV0dXJucyB2aWRlbyBmaWxlXG4gICAgICAgIHctPj5BRTogQ2FsbCBFeGVjdXRlXG4gICAgICAgIEFFLT4-dzogUmV0dXJucyBhdWRpbyBmaWxlXG4gICAgICAgIHctPj5EOiBTYXZlcyBhdWRpbyBmaWxlXG4gICAgICAgIHctPj5XcjogUmV0dXJucyByZXN1bHQgYW5kIGVycm9yXG4gICAgICAgIGRlYWN0aXZhdGUgd1xuICAgICAgICBXci0-PldTOiBSZXBvcnRzIHdvcmsgZmluaXNoXG4gICAgICAgIGRlYWN0aXZhdGUgV3JcbiAgICBlbmRcbiAgICBXUy0-PkFwcDogUmVwb3J0cyB3b3JrIGZpbmlzaFxuICAgIGRlYWN0aXZhdGUgV1NcbiAgICBBcHAtPj5DTEk6IFJlcG9ydHMgd29yayBmaW5pc2hcbiAgICBkZWFjdGl2YXRlIEFwcFxuICAgIENMSS0-PkNMSTogTG9ncyB0aGUgcmVzdWx0XG4gICAgZGVhY3RpdmF0ZSBDTEkiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGFya1wiLFxuICBcImRpYWdyYW1NYXJnaW5YXCI6IDUwXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
 
 ![Sequence diagram](images/program-execution-flow.png)

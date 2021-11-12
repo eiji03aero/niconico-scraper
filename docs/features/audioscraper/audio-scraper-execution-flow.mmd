@@ -1,28 +1,50 @@
 sequenceDiagram
+    %% models
     participant CLI
     participant App as Application
     participant Config as Configuration
     participant WS as WorkStation
     participant Wr as Worker
     participant w as work
-    participant ncncsvc as NicoNicoDougaService
+    participant ncsvc as NicoVideoService
     participant MD as MediaDownloader
     participant AE as AudioExtractor
     %% external
     participant D as Disk
-    participant ncnc as NicoNicoDouga
+    participant ncvd as NicoVideo
 
+    %% ---------- Execution flow ----------
     %% Initialization by adapter
+    activate CLI
     CLI->>Config: Call LoadByFile
     CLI->>App: Call Run
 
     %% Application flow
+    activate App
     App->>WS: Call Run
-    WS->>Wr: Call Run in parallel
-    Wr->>w: Call
-    w->>Config: Call GetCredentials
-    w->>ncncsvc: Call ScrapeVideoData
-    ncncsvc->>ncnc: Scrapes
-    w->>MD: Call Execute
-    w->>AE: Call Execute
-    w->>D: Saves audio file
+    activate WS
+    WS->>Wr: Call Run
+    par Work
+        activate Wr
+        Wr->>w: Call
+        activate w
+        w->>Config: Call GetCredentials
+        w->>ncsvc: Call ScrapeVideoData
+        ncsvc->>ncvd: Scrapes
+        ncsvc->>w: Returns NicoVideoVideoData
+        w->>MD: Call Execute
+        MD->>w: Returns video file
+        w->>AE: Call Execute
+        AE->>w: Returns audio file
+        w->>D: Saves audio file
+        w->>Wr: Returns result and error
+        deactivate w
+        Wr->>WS: Reports work finish
+        deactivate Wr
+    end
+    WS->>App: Reports work finish
+    deactivate WS
+    App->>CLI: Reports work finish
+    deactivate App
+    CLI->>CLI: Logs the result
+    deactivate CLI
