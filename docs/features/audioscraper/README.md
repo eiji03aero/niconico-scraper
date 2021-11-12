@@ -1,22 +1,20 @@
 # audioscraper
 - An automation to aggregate audio files from various sources.
 
-# Schedule
+# General
+## Schedule
 - Lay foundation for this project
 - Create supplemental visual diagrams
 - Break down implementation and append them to schedule
 - Prepare development environment
   - docker, golang
-- [TBD] implementation
+- Implementation
+- Use the tool to get the beloved vocalo songs!
 
-# Specification
+## Specification
 - general
-  - use golang to program
-    - for learning purpose
+  - it scrapes video files and extract the audio data to save as separate file.
   - provides standalone executable
-  - parse html file to scrape desired content
-  - tool to download media file (video)
-  - tool to extract audio from video file
 - input
   - configuration file in yaml:
     - niconico douga account credential (email, password)
@@ -30,9 +28,10 @@
   - respective work should be done concurrently
     - scraping should be done concurrently for performance (and learning golang)
 
-# Requirements
+## Requirements
 - golang
   - language itself
+    - for learning purpose
   - browser automation library
     - will have to simulate user login
     - should be able to handle cookie?
@@ -50,7 +49,7 @@
 - docker
   - gives portable execution environment for program
 
-# Consideration
+## Consideration
 - Probably I should create a niconico douga account which can be banned without concern
   - it is pretty much possible that their system detect this program as bot and ban the account
   - do not want to lose the beloved account
@@ -64,7 +63,10 @@
   - or not really?
     - just put everything in one module?
 
-# Draft implementation
+---
+
+# Design
+## Draft implementation
 - execute program with configuration file
 - read configuration file to:
   - store:
@@ -93,23 +95,23 @@
   - set video title to audio media file's name
   - move audio media file to designated location
 
-# Overview
+## Overview
 - [Audio scraper diagrams](audio-scraper-design.drawio)
 
-## Application
+### Application
 ![Application overview image](images/application-overview.png)
 
-## Program components
+### Program components
 ![Program overview image](images/program-overview.png)
 
-### CLI binding
+#### CLI binding
 - just provide function
 - parse the argument
 - configure and run application
 - writes to the standard output when thing done
 - writes to the standard error when things gone bad
 
-### Application models
+#### Application models
 - Application
   - the application service, encapsulates application logic underneath
   - orchestrates components
@@ -140,7 +142,7 @@
       - if so, asserts the type to return corresponding credentials
         - if not credential not found, return error
 
-### Application agnostic models
+#### Application agnostic models
 - Worker[Input, Result = any]
   - handles executing work
   - receives work (input) via channel given
@@ -209,7 +211,7 @@
       - handles login operation
       - handles scraping video page
 
-### Application agnostic data structures
+#### Application agnostic data structures
 - MediaResource
   - holds data to describe media resource from various video services
   - new arguments:
@@ -239,15 +241,15 @@
     - GetEmail() (string)
     - GetPassword() (string)
 
-### Errors
+#### Errors
 - ConfigurationFileNotFound
   - when Configuration failed to find a config file specified with path
 - ConfigurationFileInvalid
   - when config file format is invalid
-- InvalidCredentialRequest
+- CredentialNotFound
   - when Configuration failed to get credential for the type argument given
 
-### Others
+#### Others
 - Config yaml file
   - settings:
     - outputPath string
@@ -258,8 +260,73 @@
   - resources:
     - []MediaResource
 
-## Program execution flow
+### Program execution flow
 - [Audio scraper sequence diagram](audio-scraper-execution-flow.mmd)
 - [Mermaid](https://mermaid.live/edit/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgJSUgbW9kZWxzXG4gICAgcGFydGljaXBhbnQgQ0xJXG4gICAgcGFydGljaXBhbnQgQXBwIGFzIEFwcGxpY2F0aW9uXG4gICAgcGFydGljaXBhbnQgQ29uZmlnIGFzIENvbmZpZ3VyYXRpb25cbiAgICBwYXJ0aWNpcGFudCBXUyBhcyBXb3JrU3RhdGlvblxuICAgIHBhcnRpY2lwYW50IFdyIGFzIFdvcmtlclxuICAgIHBhcnRpY2lwYW50IHcgYXMgd29ya1xuICAgIHBhcnRpY2lwYW50IG5jc3ZjIGFzIE5pY29WaWRlb1NlcnZpY2VcbiAgICBwYXJ0aWNpcGFudCBNRCBhcyBNZWRpYURvd25sb2FkZXJcbiAgICBwYXJ0aWNpcGFudCBBRSBhcyBBdWRpb0V4dHJhY3RvclxuICAgICUlIGV4dGVybmFsXG4gICAgcGFydGljaXBhbnQgRCBhcyBEaXNrXG4gICAgcGFydGljaXBhbnQgbmN2ZCBhcyBOaWNvVmlkZW9cblxuICAgICUlIC0tLS0tLS0tLS0gRXhlY3V0aW9uIGZsb3cgLS0tLS0tLS0tLVxuICAgICUlIEluaXRpYWxpemF0aW9uIGJ5IGFkYXB0ZXJcbiAgICBhY3RpdmF0ZSBDTElcbiAgICBDTEktPj5Db25maWc6IENhbGwgTG9hZEJ5RmlsZVxuICAgIENMSS0-PkFwcDogQ2FsbCBSdW5cblxuICAgICUlIEFwcGxpY2F0aW9uIGZsb3dcbiAgICBhY3RpdmF0ZSBBcHBcbiAgICBBcHAtPj5XUzogQ2FsbCBSdW5cbiAgICBhY3RpdmF0ZSBXU1xuICAgIFdTLT4-V3I6IENhbGwgUnVuXG4gICAgcGFyIFdvcmtcbiAgICAgICAgYWN0aXZhdGUgV3JcbiAgICAgICAgV3ItPj53OiBDYWxsXG4gICAgICAgIGFjdGl2YXRlIHdcbiAgICAgICAgdy0-PkNvbmZpZzogQ2FsbCBHZXRDcmVkZW50aWFsc1xuICAgICAgICB3LT4-bmNzdmM6IENhbGwgU2NyYXBlVmlkZW9EYXRhXG4gICAgICAgIG5jc3ZjLT4-bmN2ZDogU2NyYXBlc1xuICAgICAgICBuY3N2Yy0-Pnc6IFJldHVybnMgTmljb1ZpZGVvVmlkZW9EYXRhXG4gICAgICAgIHctPj5NRDogQ2FsbCBFeGVjdXRlXG4gICAgICAgIE1ELT4-dzogUmV0dXJucyB2aWRlbyBmaWxlXG4gICAgICAgIHctPj5BRTogQ2FsbCBFeGVjdXRlXG4gICAgICAgIEFFLT4-dzogUmV0dXJucyBhdWRpbyBmaWxlXG4gICAgICAgIHctPj5EOiBTYXZlcyBhdWRpbyBmaWxlXG4gICAgICAgIHctPj5XcjogUmV0dXJucyByZXN1bHQgYW5kIGVycm9yXG4gICAgICAgIGRlYWN0aXZhdGUgd1xuICAgICAgICBXci0-PldTOiBSZXBvcnRzIHdvcmsgZmluaXNoXG4gICAgICAgIGRlYWN0aXZhdGUgV3JcbiAgICBlbmRcbiAgICBXUy0-PkFwcDogUmVwb3J0cyB3b3JrIGZpbmlzaFxuICAgIGRlYWN0aXZhdGUgV1NcbiAgICBBcHAtPj5DTEk6IFJlcG9ydHMgd29yayBmaW5pc2hcbiAgICBkZWFjdGl2YXRlIEFwcFxuICAgIENMSS0-PkNMSTogTG9ncyB0aGUgcmVzdWx0XG4gICAgZGVhY3RpdmF0ZSBDTEkiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGFya1wiLFxuICBcImRpYWdyYW1NYXJnaW5YXCI6IDUwXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)
 
 ![Sequence diagram](images/program-execution-flow.png)
+
+### Folder structure
+![Folder structure](images/program-folder-structure.png)
+
+
+---
+
+# Development
+## Policy
+- Write test code with 100% coverage
+  - use mock lib if required
+
+## Approaches
+- Probably we could consider approach on how to develop.
+
+### Candidates
+#### Bottom up
+- Develop from the ones that are less dependent.
+- Combine the implemented components to build more abstracted components, as a result build the application.
+- pros:
+  - Easier to start working.
+  - Easier to start writing tsets.
+- cons:
+  - Kind of hard to see the whole picture in the beginning.
+    - Could lead to realizing a flaw of architecture in late phase.
+
+#### Top down
+- Develop from the top level like going down the steps.
+- Leave the unimplemented part placeholder-ed.
+- pros:
+  - Easier to grasp the entire application.
+  - Probably it is suitable for more agile, as we get to understand more about application from the beginning.
+- cons:
+  - Needs more planning on how to proceed to avoid confusion.
+
+### Conclusion
+- Let's go with top-down approach this time:
+  - It should be more scaleble (team members).
+  - It should provides more chances to brush up architecture.
+
+## Plan
+### Phase 1: Lay foundation and create skeleton of the application
+- [ ] Prepare developmenet environment
+  - docker
+    - make sure to pick docker image for golang which supports generics
+  - docker-compose
+- [ ] create skeleton
+  - follow the folder structure
+
+### Phase 2: Implement lib/work package
+- Worker and WorkStation
+
+### Phase 3: Implement binding/nicovideo package
+- follow the document
+
+### Phase 4: Implement rest of application agnostic package
+- MediaDownloader
+- AudioExtractor
+
+### Phase 5: Complete application
+- Configuration
+- Application
+- CLI
+- Implementation of work
+- Implement init script

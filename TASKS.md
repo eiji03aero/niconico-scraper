@@ -1,12 +1,7 @@
 # Tasks
 
 ## Backlog
-- [ ] research if extracting audio for personal use conflicts with dwango's terms of use
-
-- [ ] Create development plan
-  - thing of folder architecture
-  - start small, try to logically group works together
-  - write test
+- [ ] proceed with phase 1
 
 - [ ] Add initialization script and gitignore
   - should create config file for audioscraper
@@ -19,7 +14,15 @@
     - could lead to serious trouble
   - So experiment with dummy data instead
 
-## Done
+## Archive
+- [x] Create development plan
+  - make sure to comprehend overall image of application in which various components live
+  - think of folder architecture
+  - start small, try to logically group works together
+  - should write test
+- [x] research if extracting audio for personal use conflicts with dwango's terms of use
+  - https://site.nicovideo.jp/term/?ref=footer
+  - could not find a statement explicitly prohibits downloading and modifying the video data
 - [x] consider architecture of implementation and create visual diagram
   - [x] er diagram
     - description, interface, member fields
