@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  workspace:
+    volumes:
+      - v-sync-scraper:/app:nocopy
+
+volumes:
+  v-sync-scraper:
+    external: true

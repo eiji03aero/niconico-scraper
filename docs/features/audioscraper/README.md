@@ -3,13 +3,13 @@
 - [Documentation](document.md)
 
 # Schedule
-- Lay foundation for this project
-- Create supplemental visual diagrams
-- Break down implementation and append them to schedule
-- Prepare development environment
+- [x] Lay foundation for this project
+- [x] Create supplemental visual diagrams
+- [x] Break down implementation and append them to schedule
+- [x] Prepare development environment
   - docker, golang
-- Implementation
-- Use the tool to get the beloved vocalo songs!
+- [ ] Implementation
+- [ ] Use the tool to get the beloved vocalo songs!
 
 ---
 
@@ -48,11 +48,11 @@
 
 ## Plan
 ### Phase 1: Lay foundation and create skeleton of the application
-- [ ] Prepare developmenet environment
+- [x] Prepare developmenet environment
   - docker
     - make sure to pick docker image for golang which supports generics
   - docker-compose
-- [ ] create skeleton
+- [x] create skeleton
   - follow the folder structure
 
 ### Phase 2: Implement lib/work package
