@@ -71,3 +71,10 @@
 - CLI
 - Implementation of work
 - Implement init script
+
+# Misc
+## Nico Video account
+- account: aj07light@gmail.com
+- pass: Aeropro2
+- user name aj
+- user ID 124802944

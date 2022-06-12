@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWorkStation(t *testing.T) {
+func Test_WorkStation(t *testing.T) {
 	type Result struct {
 		idx int
 	}
@@ -38,7 +38,7 @@ func TestWorkStation(t *testing.T) {
 	assert.Equal(expectedErrors, workStation.errors)
 }
 
-func TestWorkStationQuantity(t *testing.T) {
+func Test_WorkStationQuantity(t *testing.T) {
 	type Result struct {
 		idx int
 	}

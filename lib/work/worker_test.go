@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWorker(t *testing.T) {
+func Test_Worker(t *testing.T) {
 	type Result struct {
 		idx int
 	}
