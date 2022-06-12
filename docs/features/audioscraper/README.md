@@ -56,7 +56,7 @@
   - follow the folder structure
 
 ### Phase 2: Implement lib/work package
-- Worker and WorkStation
+- [x] Worker and WorkStation
 
 ### Phase 3: Implement binding/nicovideo package
 - follow the document

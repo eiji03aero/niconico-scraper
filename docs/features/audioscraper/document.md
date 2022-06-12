@@ -60,7 +60,7 @@
   - store:
     - accountEmail: string ... account email
     - password: string ... password
-    - mediaUrls: []string ... urls to extract audios
+    - mediaResources: []MediaResource ... urls to extract audios
     - outputPath: string ... path to directory under which audio files will be saved
 - for url of urls: (ideally work here should be done concurrently)
   - open niconico login page
